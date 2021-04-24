@@ -1,6 +1,8 @@
 import './App.css';
 import React, { Component } from 'react';
 import MyStackedAreaChart from './MyStackedAreaChart';
+import MyPieChart from './MyPieChart';
+import MyLineChart from './MyLineChart';
 
 class App extends Component {
     state = {
@@ -23,6 +25,8 @@ class App extends Component {
       return(
         <div>
           <MyStackedAreaChart/>
+          <MyPieChart/>
+          <MyLineChart/>
         </div>
       );
       /*
