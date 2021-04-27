@@ -2,16 +2,16 @@
   text-align: center;
 }
 
-div {
-  height: 800px;
-  width: 1600px;
-  background-color: none;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
+/*
+div {
+  height: 100%;
+}
+*/
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

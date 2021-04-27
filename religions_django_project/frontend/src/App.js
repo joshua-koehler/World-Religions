@@ -1,10 +1,11 @@
 import './App.css';
 import React, { Component } from 'react';
-import MyStackedAreaChart from './MyStackedAreaChart';
-import MyPieChart from './MyPieChart';
-import MyLineChart from './MyLineChart';
+import DataDashboard from './DataDashboard';
+import YearDropdown from './MyPieChartModal';
+import MyPieChartModal from './MyPieChartModal';
 
 class App extends Component {
+  /*
     state = {
         cdp: []
     };
@@ -20,32 +21,14 @@ class App extends Component {
             console.log(e)
         }
     }
+    */
 
     render(){
       return(
         <div>
-          <MyStackedAreaChart/>
-          <MyPieChart/>
-          <MyLineChart/>
+          <DataDashboard/>
         </div>
       );
-      /*
-        return (
-            <div>
-                <MyStackedAreaChart/>
-                {this.state.cdp.map(item => (
-                    <div key={item.id}>
-                        <h1>{item.year}</h1>
-                        <span>Protestant: {item.protestant_percent}%</span>
-                        <br/>
-                        <span>Papist: {item.papist_percent}%</span>
-                    </div>
-                ))}
-
-                <MyStackedAreaChart/>
-            </div>
-        );
-        */
     }
 }
 

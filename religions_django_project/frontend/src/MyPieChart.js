@@ -30,9 +30,12 @@ function getIndexOfYear(year){
 
 export default class MyPieChart extends PureComponent {
 
+  // TODO configure with props to be pulled from selector
+
   state = {
       cdp: [], // Combined Data Point - CDP
-      year: 2010
+      currentCdp: [],  // Combined Data Point for year
+      year: this.props.year ? this.props.year : 2020,
   };
 
   getPieChartJson = (year, cdp) => {
@@ -50,12 +53,38 @@ export default class MyPieChart extends PureComponent {
       try {
           const res = await fetch('http://127.0.0.1:8000/religions/api/combined/');
           var cdp = await res.json();
-          console.log(cdp);
-          cdp = this.getPieChartJson(this.state.year, cdp);
           this.setState({
-              cdp
+            cdp
           });
-          console.log(this.state.cdp);
+          console.log(cdp);
+          var currentCdp = this.getPieChartJson(this.state.year, cdp);
+          this.setState({
+              currentCdp
+          });
+          console.log(this.state.currentCdp);
+      } catch (e){
+          console.log(e)
+      }
+  }
+
+  async componentWillReceiveProps(nextProps) {
+      if(this.props == nextProps){
+        console.log("props are same");
+        return;
+      }
+      console.log("componentWIllReceiveProps is called");
+      try {
+          const res = await fetch('http://127.0.0.1:8000/religions/api/combined/');
+          var cdp = await res.json();
+          this.setState({
+            cdp
+          });
+          console.log(cdp);
+          var currentCdp = this.getPieChartJson(this.props.year, cdp);
+          this.setState({
+              currentCdp
+          });
+          console.log(this.state.currentCdp);
       } catch (e){
           console.log(e)
       }
@@ -64,9 +93,9 @@ export default class MyPieChart extends PureComponent {
   render() {
     return (
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart width={100} height={100}>
+        <PieChart width={1800} height={800}>
           <Pie
-            data={this.state.cdp}
+            data={this.state.currentCdp}
             cx="50%"
             cy="50%"
             labelLine={false}
@@ -79,7 +108,7 @@ export default class MyPieChart extends PureComponent {
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Legend verticalAlign="bottom" height={36}/>
+          <Legend verticalAlign="bottom" height={200}/>
         </PieChart>
       </ResponsiveContainer>
     );
