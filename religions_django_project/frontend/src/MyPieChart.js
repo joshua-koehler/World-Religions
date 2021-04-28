@@ -78,7 +78,11 @@ export default class MyPieChart extends PureComponent {
       }
       console.log("componentWIllReceiveProps is called");
       try {
-          const res = await fetch('http://127.0.0.1:8000/religions/api/combined/');
+          const res = await fetch('http://127.0.0.1:8000/religions/api/combined/', {
+            headers: {
+              Authorization: `JWT ${localStorage.getItem('token')}`
+            }
+          });
           var cdp = await res.json();
           this.setState({
             cdp
