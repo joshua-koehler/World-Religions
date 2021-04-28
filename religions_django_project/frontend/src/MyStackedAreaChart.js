@@ -9,7 +9,11 @@ export default class MyStackedAreaChart extends PureComponent {
 
     async componentDidMount() {
         try {
-            const res = await fetch('http://127.0.0.1:8000/religions/api/combined/');
+            const res = await fetch('http://127.0.0.1:8000/religions/api/combined/', {
+              headers: {
+                Authorization: `JWT ${localStorage.getItem('token')}`
+              }
+            });
             const cdp = await res.json();
             this.setState({
                 cdp

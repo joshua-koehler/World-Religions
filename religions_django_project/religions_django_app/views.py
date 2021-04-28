@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import json
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
 from . import data_analysis
 
 from .serializers import CombinedDataPointSerializer, ProtestantPointSerializer, PapistPointSerializer
@@ -10,16 +12,19 @@ from .models import *
 class CombinedDataPointViewSet(viewsets.ModelViewSet):
     queryset = CombinedDataPoint.objects.all()
     serializer_class = CombinedDataPointSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class ProtestantPointViewSet(viewsets.ModelViewSet):
     queryset = ProtestantPoint.objects.all()
     serializer_class = ProtestantPointSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 class PapistPointViewSet(viewsets.ModelViewSet):
     queryset = PapistPoint.objects.all()
     serializer_class = PapistPointSerializer
+    permission_classes = (IsAuthenticated,)
 
 
 def index(request):

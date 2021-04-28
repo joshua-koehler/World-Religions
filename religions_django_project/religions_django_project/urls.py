@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('religions/', include('religions_django_app.urls')),
     path('', include('religions_django_app.urls')),  # TODO change this to login page template? if only api then no
+    path('token-auth/', obtain_jwt_token), # DRF JWT package provides this default view for decoding received JWT
 ]

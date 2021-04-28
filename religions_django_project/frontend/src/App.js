@@ -1,60 +1,54 @@
 import './App.css';
 import React, { Component } from 'react';
 import DataDashboard from './DataDashboard';
-import YearDropdown from './MyPieChartModal';
-import MyPieChartModal from './MyPieChartModal';
+import Login from './Login';
 
 class App extends Component {
-  /*
-    state = {
-        cdp: []
+
+    constructor(props){
+      super(props);
+      this.state = {
+        logged_in: localStorage.getItem('token') ? true : false,
+      }
+    }
+
+    handle_login = (e, data) => {
+      e.preventDefault();
+      fetch('http://localhost:8000/token-auth/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(json => {
+          localStorage.setItem('token', json.token);
+          this.setState({
+            logged_in: true,
+            displayed_form: '',
+            username: json.username
+            //username: json.user.username
+          });
+        });
     };
 
-    async componentDidMount() {
-        try {
-            const res = await fetch('http://127.0.0.1:8000/religions/api/combined/');
-            const cdp = await res.json();
-            this.setState({
-                cdp
-            });
-        } catch (e){
-            console.log(e)
-        }
-    }
-    */
-
     render(){
-      return(
-        <div>
-          <DataDashboard/>
-        </div>
-      );
+      if(this.state.logged_in){
+        return(
+          <div>
+            <DataDashboard/>
+          </div>
+        );
+      }
+      else{
+        return(
+          <div>
+            <Login handle_login={this.handle_login} onLogin={() => {this.setState({logged_in: true})}}/>
+          </div>
+        )
+      }
     }
 }
 
 export default App;
-
-/*
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
-*/
