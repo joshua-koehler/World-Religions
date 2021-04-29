@@ -28,7 +28,6 @@ class App extends Component {
             logged_in: true,
             displayed_form: '',
             username: json.username
-            //username: json.user.username
           });
         });
     };
