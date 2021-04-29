@@ -22,4 +22,5 @@ urlpatterns = [
     path('religions/', include('religions_django_app.urls')),
     path('', include('religions_django_app.urls')),  # TODO change this to login page template? if only api then no
     path('token-auth/', obtain_jwt_token), # DRF JWT package provides this default view for decoding received JWT
+    # Not necessary? path('', include('frontend.urls')), # TODO fix conflict between here and 2 lines above '' duplicate path
 ]

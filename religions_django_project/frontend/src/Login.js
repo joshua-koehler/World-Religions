@@ -1,5 +1,4 @@
 import React from 'react';
-//import PropTypes from 'prop-types'; try without first
 
 class Login extends React.Component {
   state = {
@@ -42,9 +41,3 @@ class Login extends React.Component {
 }
 
 export default Login;
-
-/* try without
-Login.propTypes = {
-  handle_login: PropTypes.func.isRequired
-};
-*/

@@ -1,5 +1,6 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+window.React = React;
 
 
 export default class MyStackedAreaChart extends PureComponent {

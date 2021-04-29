@@ -4,6 +4,7 @@ import json
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import render
 from . import data_analysis
 
 from .serializers import CombinedDataPointSerializer, ProtestantPointSerializer, PapistPointSerializer
@@ -27,8 +28,10 @@ class PapistPointViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
 
-def index(request):
-    return HttpResponse("You've reached the religions_django_app index.")
+#def index(request):
+def index(request, *args, **kwargs):
+    #return HttpResponse("You've reached the religions_django_app index.")
+    return render(request, "frontend/index.html")
 
 def visualize(request):
     return HttpResponse("<h1>World Religions Visualizer</h1>")
