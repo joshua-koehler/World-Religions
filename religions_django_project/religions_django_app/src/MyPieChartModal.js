@@ -4,6 +4,8 @@ import { Dropdown } from 'semantic-ui-react'
 import MyPieChart from './MyPieChart';
 import './MyPieChart.css';
 
+// TODO - refactor this to pull information from the api instead of hard-coding the years. This is fine for the current dataset,
+// but as more data is added we will want to automatically accomodate it here.
 const yearOptions = [
   { key: '1945', text: '1945', value: '1945' },
   { key: '1950', text: '1950', value: '1950' },
@@ -31,12 +33,6 @@ const yearOptions = [
 
 var t = "Select Year";
 
-// TODO when you come back, turn this YearDropdown component into PieChartModal and fix the 0px width issue for the MyPieChart component
-// Then add a prop to MyPieChart and allow the toggle to change the pie chart
-// Then wrap up all three visualizations into the DataDashboard panel
-// Once that is done, build the login page
-// Then deploy                
-
 class MyPieChartModal extends Component {
     state = {
         selectedText: "Select a Year",
@@ -45,7 +41,6 @@ class MyPieChartModal extends Component {
 
     render(){
         return(
-            //<div height='800px' id='pieModal'>
             <div id='pieModal'>
                 <br/>
                 <br/>
@@ -57,7 +52,6 @@ class MyPieChartModal extends Component {
                     onChange={(e) => {
                             this.setState({selectedText: e.target.outerText});
                             this.setState({year: e.target.outerText});
-                            console.log(this.state.year);
                         }
                     }
                     floating
@@ -68,7 +62,7 @@ class MyPieChartModal extends Component {
                     text={this.state.selectedText}
                     input={this.state.year}
                 />
-                <MyPieChart year={this.state.year}/>
+                <MyPieChart year={this.state.year} cdp={this.props.cdp}/>
             </div>
         );
 

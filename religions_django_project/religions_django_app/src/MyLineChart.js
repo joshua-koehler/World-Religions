@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from 'recharts';
 
+/*
 const data = [
   {
     name: 'Page A',
@@ -45,52 +46,39 @@ const data = [
     amt: 2100,
   },
 ];
+*/
 
 export default class MyLineChart extends PureComponent {
 
-  state = {
-        cdp: []
-    };
-
-    async componentDidMount() {
-        try {
-            //const res = await fetch('http://127.0.0.1:8000/religions/api/combined/');
-            const res = await fetch('http://127.0.0.1:8000/religions/api/combined/', {
-              headers: {
-                Authorization: `JWT ${localStorage.getItem('token')}`
-              }
-            });
-            const cdp = await res.json();
-            this.setState({
-                cdp
-            });
-        } catch (e){
-            console.log(e)
-        }
-    }
-
   render() {
-    return (
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          width={500}
-          height={300}
-          data={this.state.cdp}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" />
-          <YAxis />
-          <Legend />
-          <Line type="monotone" dataKey="protestant_percent" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="papist_percent" stroke="#82ca9d" />
-        </LineChart>
-      </ResponsiveContainer>
-    );
+    let ready = this.props.cdp && this.props.cdp.length > 0;
+    if(ready){
+      return (
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            width={500}
+            height={300}
+            data={this.props.cdp}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="year" />
+            <YAxis />
+            <Legend />
+            <Line type="monotone" dataKey="protestant_percent" stroke="#8884d8" activeDot={{ r: 8 }} />
+            <Line type="monotone" dataKey="papist_percent" stroke="#82ca9d" />
+          </LineChart>
+        </ResponsiveContainer>
+      );
+    } else {
+      return (
+        <h2>Awaiting data.</h2>
+      );
+    }
   }
 }

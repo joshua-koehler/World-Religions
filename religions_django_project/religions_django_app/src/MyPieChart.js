@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { PieChart, Pie, Legend, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Legend, Cell, ResponsiveContainer } from 'recharts';
 
 const data = [
   { name: 'Group A', value: 400 },
@@ -30,42 +30,34 @@ function getIndexOfYear(year){
 
 export default class MyPieChart extends PureComponent {
 
-  // TODO configure with props to be pulled from selector
-
   state = {
-      cdp: [], // Combined Data Point - CDP
       currentCdp: [],  // Combined Data Point for year
       year: this.props.year ? this.props.year : 2020,
   };
 
   getPieChartJson = (year, cdp) => {
-    var index = getIndexOfYear(year);
-    var datum = cdp[index];
-    console.log(datum);
-    var protestant = {"name": "Protestant", "year": year, "percent": datum.protestant_percent}
-    console.log(protestant);
-    var papist = {"name": "Roman Catholic", "year": year, "percent": datum.papist_percent}
-    var other = {"name": "Other", "year": year, "percent": 1 - datum.protestant_percent - datum.papist_percent};
+    let protestant, papist, other;
+    if(cdp === undefined || cdp.length == 0){ // give it dummy data until api call returns
+      protestant = {"name": "Protestant", "year": year, "percent": 0.1}
+      papist = {"name": "Roman Catholic", "year": year, "percent": 0.8}
+      other = {"name": "Other", "year": year, "percent": 0.1};
+    }
+    else{
+      var index = getIndexOfYear(year);
+      var datum = cdp[index];
+      protestant = {"name": "Protestant", "year": year, "percent": datum.protestant_percent}
+      papist = {"name": "Roman Catholic", "year": year, "percent": datum.papist_percent}
+      other = {"name": "Other", "year": year, "percent": 1 - datum.protestant_percent - datum.papist_percent};
+    }
     return [protestant, papist, other];
   }
 
   async componentDidMount() {
       try {
-          const res = await fetch('http://127.0.0.1:8000/religions/api/combined/', {
-            headers: {
-              Authorization: `JWT ${localStorage.getItem('token')}`
-            }
-          });
-          var cdp = await res.json();
-          this.setState({
-            cdp
-          });
-          console.log(cdp);
-          var currentCdp = this.getPieChartJson(this.state.year, cdp);
+          let currentCdp = this.getPieChartJson(this.state.year, this.props.cdp);
           this.setState({
               currentCdp
           });
-          console.log(this.state.currentCdp);
       } catch (e){
           console.log(e)
       }
@@ -76,23 +68,12 @@ export default class MyPieChart extends PureComponent {
         console.log("props are same");
         return;
       }
-      console.log("componentWIllReceiveProps is called");
+
       try {
-          const res = await fetch('http://127.0.0.1:8000/religions/api/combined/', {
-            headers: {
-              Authorization: `JWT ${localStorage.getItem('token')}`
-            }
-          });
-          var cdp = await res.json();
-          this.setState({
-            cdp
-          });
-          console.log(cdp);
-          var currentCdp = this.getPieChartJson(this.props.year, cdp);
+          var currentCdp = this.getPieChartJson(nextProps.year, this.props.cdp);
           this.setState({
               currentCdp
           });
-          console.log(this.state.currentCdp);
       } catch (e){
           console.log(e)
       }
